@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta Cumpleaños Trabajo 🎉</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        /* Estilo base usando la fuente Inter */
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth; /* Scroll suave */
+        }
+
+        /* --- Estilos Mejorados --- */
+
+        /* Contenedor principal */
+        .main-container {
+            max-width: 700px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background-color: white;
+            border-radius: 16px; /* Más redondeado */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-out; /* Transición suave */
+        }
+
+        /* Encabezado */
+        header h1 {
+            background: linear-gradient(45deg, #f59e0b, #ef4444); /* Gradiente naranja a rojo */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Barra de Progreso */
+        #progress-bar-container {
+            width: 100%;
+            background-color: #e5e7eb; /* gray-200 */
+            border-radius: 9999px; /* full */
+            overflow: hidden;
+            margin-bottom: 1.5rem; /* Espacio debajo */
+            height: 12px; /* Altura de la barra */
+        }
+        #progress-bar {
+            height: 100%;
+            width: 0%; /* Inicia en 0 */
+            background: linear-gradient(90deg, #3b82f6, #22d3ee); /* Gradiente azul a cyan */
+            border-radius: 9999px;
+            transition: width 0.5s ease-in-out; /* Animación suave */
+        }
+         #progress-text {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6b7280; /* gray-500 */
+            margin-top: 4px; /* Pequeño espacio arriba */
+         }
+
+        /* Bloques de Preguntas */
+        .question-block {
+            margin-bottom: 1.5rem; /* mb-6 */
+            padding: 1rem; /* p-4 */
+            background-color: #f9fafb; /* gray-50 */
+            border-radius: 12px; /* rounded-xl */
+            border: 1px solid #e5e7eb; /* border-gray-200 */
+            transition: box-shadow 0.3s ease;
+        }
+        .question-block:focus-within { /* Resaltar al interactuar */
+             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Anillo azul suave */
+        }
+
+        /* Opciones de Encuesta (Radio/Checkbox) */
+        .survey-option label {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px; /* Más padding */
+            border: 2px solid #e5e7eb; /* gray-200, borde más grueso */
+            border-radius: 10px; /* rounded-lg */
+            cursor: pointer;
+            transition: all 0.25s ease-out;
+            margin-bottom: 8px;
+            background-color: white;
+        }
+        .survey-option label:hover {
+            border-color: #9ca3af; /* gray-400 */
+            transform: translateY(-2px); /* Ligero levantamiento */
+        }
+        .survey-option input[type="radio"]:checked + label,
+        .survey-option input[type="checkbox"]:checked + label {
+            background-color: #eff6ff; /* blue-50 */
+            border-color: #3b82f6; /* blue-500 */
+            color: #1e40af; /* blue-800 */
+            font-weight: 500; /* medium */
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2); /* Sombra azul */
+            transform: scale(1.02); /* Ligero zoom */
+        }
+        .survey-option input[type="radio"],
+        .survey-option input[type="checkbox"] {
+            display: none; /* Ocultar input original */
+        }
+        .survey-option label span {
+            margin-left: 10px; /* Más espacio */
+        }
+
+        /* Campo 'Otro' */
+        .other-input {
+            display: none;
+            margin-top: 10px;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        input[type="radio"]:checked ~ .other-input,
+        input[type="checkbox"]:checked ~ .other-input {
+            display: block;
+            opacity: 1;
+        }
+        .other-input input {
+             border-color: #9ca3af; /* gray-400 */
+        }
+
+        /* Textareas y Inputs */
+        textarea, input[type="text"] {
+             transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        textarea:focus, input[type="text"]:focus {
+            border-color: #3b82f6; /* blue-500 */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Anillo foco */
+            outline: none; /* Quitar outline por defecto */
+        }
+
+        /* Botón de Envío */
+        .submit-button {
+            background: linear-gradient(45deg, #f59e0b, #ef4444); /* Gradiente naranja a rojo */
+            color: white;
+            font-weight: 600; /* semibold */
+            padding: 14px 28px; /* Más grande */
+            border-radius: 10px; /* rounded-lg */
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 100%; /* Ancho completo en móvil */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .submit-button:hover {
+            transform: translateY(-3px) scale(1.03); /* Efecto hover */
+            box-shadow: 0 7px 14px rgba(239, 68, 68, 0.3); /* Sombra más pronunciada */
+        }
+        .submit-button:active {
+             transform: translateY(-1px) scale(1.01); /* Efecto click */
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Contenedor de Resultados */
+         #results-container h2 {
+             background: linear-gradient(45deg, #10b981, #22c55e); /* Gradiente esmeralda a verde */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+         }
+         #download-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+         }
+          #download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3); /* Sombra azul */
+          }
+
+
+        /* Estilos responsivos */
+        @media (min-width: 640px) { /* sm */
+            .submit-button {
+                width: auto; /* Ancho automático en pantallas más grandes */
+            }
+            .main-container {
+                padding: 2rem;
+            }
+            .question-block {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 via-yellow-50 to-pink-100 min-h-screen flex items-center justify-center p-4">
+
+    <div id="survey-container" class="main-container">
+        <header class="text-center mb-6">
+            <h1 class="text-4xl font-bold mb-2">🥳 ¡Opinión Cumpleaños! 🎂</h1>
+            <p class="text-gray-600 text-lg">Queremos saber tu opinión para mejorar. ¡Es rápido, divertido y anónimo!</p>
+        </header>
+
+        <div id="progress-bar-container">
+            <div id="progress-bar"></div>
+        </div>
+         <div id="progress-text">Progreso: 0%</div>
+
+        <form id="birthday-survey-form" class="mt-6">
+
+            <div class="question-block">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">1. ¿Qué opinaste del contenido del Box Birthday? 🎁</label>
+                <div class="space-y-2">
+                    <div class="survey-option">
+                        <input type="radio" id="q1_encanto" name="q1_box_opinion" value="Me encantó" required>
+                        <label for="q1_encanto">😍<span>Me encantó</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="radio" id="q1_gusto" name="q1_box_opinion" value="Me gustó">
+                        <label for="q1_gusto">🙂<span>Me gustó</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="radio" id="q1_bien" name="q1_box_opinion" value="Estuvo bien">
+                        <label for="q1_bien">😐<span>Estuvo bien</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="radio" id="q1_no_gusto" name="q1_box_opinion" value="No me gustó">
+                        <label for="q1_no_gusto">😞<span>No me gustó</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <label for="q2_cambios_regalo" class="block text-lg font-semibold text-gray-700 mb-3">2. ¿Qué agregarías o cambiarías del regalo? 🛍️</label>
+                <textarea id="q2_cambios_regalo" name="q2_cambios_regalo" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" placeholder="Escribe tus ideas aquí..."></textarea>
+            </div>
+
+            <div class="question-block">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">3. ¿Qué tipo de regalos preferirías? 🍫🍹🥨 <span class="text-sm text-gray-500">(Puedes marcar varios)</span></label>
+                <div class="space-y-2">
+                     <div class="survey-option">
+                        <input type="checkbox" id="q3_golosinas" name="q3_preferencias" value="Golosinas">
+                        <label for="q3_golosinas">🍭<span>Golosinas</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="checkbox" id="q3_bebidas" name="q3_preferencias" value="Bebidas (vino, cerveza)">
+                        <label for="q3_bebidas">🍹<span>Bebidas (vino, cerveza)</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="checkbox" id="q3_snacks" name="q3_preferencias" value="Snacks salados">
+                        <label for="q3_snacks">🍿<span>Snacks salados</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="checkbox" id="q3_objetos" name="q3_preferencias" value="Objetos útiles (tazas, libretas, etc.)">
+                        <label for="q3_objetos">🧸<span>Objetos útiles (tazas, libretas, etc.)</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="checkbox" id="q3_otro" name="q3_preferencias_otro_check" value="Otro">
+                        <label for="q3_otro">🎈<span>Otro</span></label>
+                        <div class="other-input">
+                             <input type="text" id="q3_otro_texto" name="q3_preferencias_otro_texto" class="w-full p-2 border border-gray-300 rounded-md mt-1 focus:ring-1 focus:ring-blue-400" placeholder="Especifica aquí...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">4. ¿Cómo calificarías los bocaditos? 🍰🥐</label>
+                <div class="space-y-2">
+                    <div class="survey-option">
+                        <input type="radio" id="q4_deliciosos" name="q4_bocaditos_calificacion" value="Deliciosos" required>
+                        <label for="q4_deliciosos">😋<span>Deliciosos</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="radio" id="q4_ricos" name="q4_bocaditos_calificacion" value="Estaban ricos">
+                        <label for="q4_ricos">👍<span>Estaban ricos</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="radio" id="q4_regulares" name="q4_bocaditos_calificacion" value="Regulares">
+                        <label for="q4_regulares">😐<span>Regulares</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="radio" id="q4_no_gustaron" name="q4_bocaditos_calificacion" value="No me gustaron">
+                        <label for="q4_no_gustaron">👎<span>No me gustaron</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <label for="q5_sugerencias_bocaditos" class="block text-lg font-semibold text-gray-700 mb-3">5. ¿Sugerencias de otros bocaditos o snacks? 📝</label>
+                <textarea id="q5_sugerencias_bocaditos" name="q5_sugerencias_bocaditos" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" placeholder="Comparte tus ideas..."></textarea>
+            </div>
+
+            <div class="question-block">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">6. ¿Otras comidas o bebidas preferidas? ☕🍹🥪 <span class="text-sm text-gray-500">(Puedes marcar varios)</span></label>
+                <div class="space-y-2">
+                    <div class="survey-option">
+                        <input type="checkbox" id="q6_cafe" name="q6_comidas" value="Café con sandwich o churros">
+                        <label for="q6_cafe">☕<span>Café con sandwich o churros</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="checkbox" id="q6_chicharron" name="q6_comidas" value="Pan con chicharrón">
+                        <label for="q6_chicharron">🥐<span>Pan con chicharrón</span></label>
+                    </div>
+                     <div class="survey-option">
+                        <input type="checkbox" id="q6_chicha" name="q6_comidas" value="Chicha morada">
+                        <label for="q6_chicha">🍹<span>Chicha morada</span></label>
+                    </div>
+                     <div class="survey-option">
+                        <input type="checkbox" id="q6_mas_bocaditos" name="q6_comidas" value="Más bocaditos dulces o salados">
+                        <label for="q6_mas_bocaditos">🍡<span>Más bocaditos dulces o salados</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="checkbox" id="q6_otro" name="q6_comidas_otro_check" value="Otro">
+                        <label for="q6_otro">🍕<span>Otro</span></label>
+                         <div class="other-input">
+                            <input type="text" id="q6_otro_texto" name="q6_comidas_otro_texto" class="w-full p-2 border border-gray-300 rounded-md mt-1 focus:ring-1 focus:ring-blue-400" placeholder="Especifica aquí...">
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">7. Sobre el gasto (S/395 bocaditos, S/60 regalo): ¿Reducir bocaditos para aumentar regalo? 💰</label>
+                <div class="space-y-2">
+                    <div class="survey-option">
+                        <input type="radio" id="q7_aumentar_regalo" name="q7_gasto_preferencia" value="Sí, prefiero aumentar el valor del regalo" required>
+                        <label for="q7_aumentar_regalo">👍<span>Sí, aumentar regalo</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="radio" id="q7_mantener_bocaditos" name="q7_gasto_preferencia" value="No, prefiero mantener más bocaditos">
+                        <label for="q7_mantener_bocaditos">👎<span>No, mantener bocaditos</span></label>
+                    </div>
+                    <div class="survey-option">
+                        <input type="radio" id="q7_conforme" name="q7_gasto_preferencia" value="Estoy conforme como está">
+                        <label for="q7_conforme">❓<span>Estoy conforme</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <label for="q8_sugerencias_adicionales" class="block text-lg font-semibold text-gray-700 mb-3">8. ¿Alguna idea o sugerencia adicional? ✨</label>
+                <textarea id="q8_sugerencias_adicionales" name="q8_sugerencias_adicionales" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" placeholder="¡Cualquier idea es bienvenida!"></textarea>
+            </div>
+
+            <div class="text-center mt-8">
+                <button type="submit" class="submit-button">
+                    Enviar mis Respuestas 🚀
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div id="results-container" class="main-container text-center" style="display: none;">
+        <canvas id="confetti-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
+        <h2 class="text-3xl font-bold text-green-600 mb-4">¡Gracias por tu opinión! 🙌</h2>
+        <p class="text-gray-700 text-lg mb-6">Tus respuestas nos ayudarán a hacer las próximas celebraciones aún mejores. ¡Valoramos mucho tu tiempo y sinceridad!</p>
+
+        <div id="charts-placeholder" class="my-6 p-4 border border-dashed border-gray-300 rounded-lg bg-gray-50">
+            <p class="text-gray-500 italic">(Aquí se mostrarían gráficos con los resultados agregados)</p>
+        </div>
+
+        <button id="download-button" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 inline-flex items-center text-base">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+            Descargar mis Respuestas (CSV)
+        </button>
+         <p class="text-sm text-gray-500 mt-4">Nota: La descarga contiene solo tus respuestas individuales.</p>
+    </div>
+
+    <script>
+        const form = document.getElementById('birthday-survey-form');
+        const surveyContainer = document.getElementById('survey-container');
+        const resultsContainer = document.getElementById('results-container');
+        const downloadButton = document.getElementById('download-button');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const totalQuestions = document.querySelectorAll('.question-block').length; // Contar bloques de preguntas
+        let userResponses = {};
+
+        // --- Lógica para Barra de Progreso ---
+        function updateProgress() {
+            let completedQuestions = 0;
+            const inputs = form.querySelectorAll('input[required], textarea[required], select[required]'); // Considerar requeridos
+            const questionBlocks = form.querySelectorAll('.question-block');
+            let answeredBlocks = new Set(); // Para no contar el mismo bloque varias veces
+
+            // Chequear radios/checkboxes requeridos dentro de cada bloque
+            questionBlocks.forEach((block, index) => {
+                const radios = block.querySelectorAll('input[type="radio"][required]');
+                const checkboxes = block.querySelectorAll('input[type="checkbox"][required]'); // Si hubiera checkboxes requeridos
+                const textareas = block.querySelectorAll('textarea[required]');
+                const inputsText = block.querySelectorAll('input[type="text"][required]'); // Incluir 'Otro' requerido
+
+                 let blockAnswered = false;
+
+                 if (radios.length > 0) {
+                     // Check if any radio in the group is checked
+                     const groupName = radios[0].name;
+                     if (form.querySelector(`input[name="${groupName}"]:checked`)) {
+                         blockAnswered = true;
+                     }
+                 } else if (checkboxes.length > 0) {
+                    // Check if at least one required checkbox is checked
+                    if (block.querySelector('input[type="checkbox"][required]:checked')) {
+                         blockAnswered = true;
+                    }
+                 } else if (textareas.length > 0) {
+                     if (textareas[0].value.trim() !== '') {
+                         blockAnswered = true;
+                     }
+                 } else if (inputsText.length > 0) {
+                     // Check if the required 'Otro' text input has value
+                     if (inputsText[0].offsetParent !== null && inputsText[0].value.trim() !== '') { // Check if visible and has value
+                         blockAnswered = true;
+                     } else if (inputsText[0].offsetParent === null) {
+                        // If the required text input is hidden (because 'Otro' isn't checked), consider the block potentially answered by other means or not applicable yet.
+                        // This logic might need refinement depending on exact requirements for 'Otro' fields being required.
+                        // For simplicity now, we won't count it as answered if the text field is required but hidden.
+                     }
+                 } else {
+                     // If block has no required fields, consider it "answered" by default for progress? Or maybe only count blocks with required fields?
+                     // Let's count blocks that have *any* interaction or are not required
+                     const anyInteraction = block.querySelector('input:checked, textarea:not(:placeholder-shown)'); // Basic check
+                      if(anyInteraction || block.querySelectorAll('[required]').length === 0) {
+                         // This part is tricky. Let's refine to count answered *required* questions.
+                         // Sticking to the required field check above is safer.
+                      }
+                 }
+
+                 // Check non-required fields for general progress feel
+                 if (!blockAnswered) {
+                    const anyInputFilled = block.querySelector('input:checked, textarea:valid'); // Check if *any* input has value or is checked
+                    if (anyInputFilled && block.querySelectorAll('[required]').length === 0) {
+                         // Consider non-required block answered if something is filled
+                         // blockAnswered = true; // Uncomment if you want non-required fields to contribute more actively
+                    }
+                 }
+
+
+                if (blockAnswered) {
+                    answeredBlocks.add(index);
+                }
+            });
+
+            // Calculate progress based on *required* questions answered
+            let requiredBlocksAnswered = 0;
+             questionBlocks.forEach((block, index) => {
+                 if (block.querySelector('[required]') && answeredBlocks.has(index)) {
+                     requiredBlocksAnswered++;
+                 }
+             });
+             const requiredBlocksTotal = form.querySelectorAll('.question-block:has([required])').length;
+
+
+            // Calculate percentage based on required blocks, or total blocks if none are required
+            const totalForProgress = requiredBlocksTotal > 0 ? requiredBlocksTotal : totalQuestions;
+            const answeredForProgress = requiredBlocksTotal > 0 ? requiredBlocksAnswered : answeredBlocks.size;
+
+            const progress = totalForProgress > 0 ? Math.round((answeredForProgress / totalForProgress) * 100) : 0;
+            progressBar.style.width = `${progress}%`;
+            progressText.textContent = `Progreso: ${progress}%`;
+        }
+
+        // Actualizar progreso en cada cambio
+        form.addEventListener('change', updateProgress);
+        form.addEventListener('input', updateProgress); // Para textareas
+        // Llamada inicial
+        updateProgress();
+
+
+        // --- Lógica para habilitar/deshabilitar campos 'Otro' ---
+        function setupOtherInputToggle(checkboxId, textInputId) {
+            const checkbox = document.getElementById(checkboxId);
+            const textInput = document.getElementById(textInputId);
+            const otherInputContainer = textInput ? textInput.closest('.other-input') : null; // Get the container
+
+            if (checkbox && textInput && otherInputContainer) {
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        otherInputContainer.style.display = 'block';
+                        setTimeout(() => { // Allow display block to apply before transition
+                             otherInputContainer.style.opacity = '1';
+                        }, 10);
+                        textInput.required = true; // Hacer requerido si se marca 'Otro'
+                    } else {
+                        otherInputContainer.style.opacity = '0';
+                        setTimeout(() => { // Hide after transition
+                             otherInputContainer.style.display = 'none';
+                             textInput.value = ''; // Limpiar si se desmarca
+                             textInput.required = false; // No requerido si se desmarca
+                             updateProgress(); // Recalcular progreso
+                        }, 300); // Match CSS transition duration
+                    }
+                     updateProgress(); // Recalcular progreso
+                });
+                 // Inicialmente oculto y no requerido
+                otherInputContainer.style.display = 'none';
+                otherInputContainer.style.opacity = '0';
+                textInput.required = false;
+            } else {
+                console.warn(`Checkbox (${checkboxId}) or TextInput (${textInputId}) or its container not found.`);
+            }
+        }
+
+        setupOtherInputToggle('q3_otro', 'q3_otro_texto');
+        setupOtherInputToggle('q6_otro', 'q6_otro_texto');
+
+        // --- Manejo del envío del formulario ---
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            // Recolectar todas las respuestas (misma lógica que antes)
+            const formData = new FormData(form);
+            userResponses = {};
+            formData.forEach((value, key) => {
+                if (key.endsWith('_otro_check')) return;
+                if (key.endsWith('_otro_texto')) {
+                    const checkKey = key.replace('_texto', '_check');
+                    if (!formData.has(checkKey)) return;
+                 }
+
+                 if (form.elements[key] && (form.elements[key].type === 'checkbox' || (form.elements[key].length > 0 && form.elements[key][0]?.type === 'checkbox'))) {
+                     if (!userResponses[key]) userResponses[key] = [];
+                     if(key.endsWith('_otro_texto') && value.trim() !== '') {
+                         const baseKey = key.replace('_otro_texto', '');
+                         if (!userResponses[baseKey]) userResponses[baseKey] = [];
+                         const otroIndex = userResponses[baseKey].indexOf('Otro');
+                         if (otroIndex > -1) userResponses[baseKey][otroIndex] = `Otro: ${value.trim()}`;
+                         else userResponses[baseKey].push(`Otro: ${value.trim()}`);
+                     } else if (!key.endsWith('_otro_texto')) {
+                        userResponses[key].push(value);
+                     }
+                 } else if (key.endsWith('_otro_texto') && value.trim() === '') {
+                    // No añadir
+                 }
+                 else {
+                    userResponses[key] = value.trim();
+                }
+            });
+             Object.keys(userResponses).forEach(key => {
+                if (Array.isArray(userResponses[key])) {
+                    userResponses[key] = userResponses[key].filter(item => item !== 'Otro');
+                }
+             });
+
+            console.log('Respuestas recolectadas:', userResponses);
+
+            // Ocultar formulario y mostrar agradecimiento con animación
+            surveyContainer.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+            surveyContainer.style.opacity = '0';
+            surveyContainer.style.transform = 'scale(0.95)';
+
+            setTimeout(() => {
+                surveyContainer.style.display = 'none';
+                resultsContainer.style.display = 'block';
+                resultsContainer.style.opacity = '0';
+                resultsContainer.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                     resultsContainer.style.transition = 'opacity 0.5s ease-in, transform 0.5s ease-in';
+                     resultsContainer.style.opacity = '1';
+                     resultsContainer.style.transform = 'scale(1)';
+                     // Lanzar confeti
+                     triggerConfetti();
+                }, 50); // Pequeña demora para iniciar la animación de entrada
+            }, 500); // Esperar a que termine la animación de salida
+        });
+
+         // --- Función para lanzar Confeti ---
+        function triggerConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+             // Ajustar canvas al tamaño del contenedor de resultados si es necesario
+             // canvas.width = resultsContainer.offsetWidth;
+             // canvas.height = resultsContainer.offsetHeight;
+
+             const myConfetti = confetti.create(canvas, {
+                 resize: true, // Permitir que se redimensione con la ventana
+                 useWorker: true // Usar worker para mejor rendimiento
+             });
+
+             myConfetti({
+                 particleCount: 150, // Más partículas
+                 spread: 100, // Más dispersión
+                 origin: { y: 0.6 } // Origen un poco más abajo
+             });
+
+             // Lanzar más confeti después de un momento
+             setTimeout(() => {
+                  myConfetti({
+                     particleCount: 100,
+                     spread: 120,
+                     origin: { y: 0.7, x: 0.3 },
+                     angle: 60
+                 });
+                  myConfetti({
+                     particleCount: 100,
+                     spread: 120,
+                     origin: { y: 0.7, x: 0.7 },
+                     angle: 120
+                 });
+             }, 300);
+        }
+
+
+        // --- Lógica para descargar CSV (sin cambios) ---
+        downloadButton.addEventListener('click', () => {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            const headers = [
+                "Opinion Regalo (Q1)", "Cambios Regalo (Q2)", "Preferencia Regalos (Q3)", "Otro Regalo (Q3)",
+                "Calificacion Bocaditos (Q4)", "Sugerencias Bocaditos (Q5)",
+                "Preferencia Comidas (Q6)", "Otra Comida (Q6)", "Preferencia Gasto (Q7)", "Sugerencias Adicionales (Q8)"
+            ];
+            csvContent += headers.join(",") + "\r\n";
+
+            const rowData = [
+                userResponses['q1_box_opinion'] || '',
+                `"${(userResponses['q2_cambios_regalo'] || '').replace(/"/g, '""')}"`,
+                (userResponses['q3_preferencias'] || []).filter(v => !v.startsWith('Otro:')).join('; '),
+                (userResponses['q3_preferencias'] || []).find(v => v.startsWith('Otro:'))?.substring(6).trim() || '',
+                userResponses['q4_bocaditos_calificacion'] || '',
+                `"${(userResponses['q5_sugerencias_bocaditos'] || '').replace(/"/g, '""')}"`,
+                (userResponses['q6_comidas'] || []).filter(v => !v.startsWith('Otro:')).join('; '),
+                (userResponses['q6_comidas'] || []).find(v => v.startsWith('Otro:'))?.substring(6).trim() || '',
+                userResponses['q7_gasto_preferencia'] || '',
+                `"${(userResponses['q8_sugerencias_adicionales'] || '').replace(/"/g, '""')}"`
+            ];
+
+            const sanitizedRowData = rowData.map(value => {
+                if (value === null || typeof value === 'undefined') return '';
+                let strValue = String(value);
+                 // Always escape double quotes within the value
+                 strValue = strValue.replace(/"/g, '""');
+                 // Enclose in double quotes if it contains comma, newline, or double quote
+                 if (strValue.includes(',') || strValue.includes('\n') || strValue.includes('"')) {
+                    return `"${strValue}"`;
+                 }
+                return strValue;
+            });
+
+            csvContent += sanitizedRowData.join(",") + "\r\n";
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "mis_respuestas_cumpleanos.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+    </script>
+
+</body>
+</html>
