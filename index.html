@@ -20,184 +20,215 @@
 
         /* Contenedor principal */
         .main-container {
-            max-width: 700px;
-            margin: 2rem auto;
-            padding: 1.5rem;
-            background-color: white;
-            border-radius: 16px; /* Más redondeado */
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease-out; /* Transición suave */
+            max-width: 700px; /* Ancho máximo del contenedor */
+            margin: 2rem auto; /* Margen superior/inferior y centrado horizontal */
+            padding: 1.5rem; /* Relleno interno */
+            background-color: white; /* Fondo blanco */
+            border-radius: 16px; /* Bordes más redondeados */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Sombra suave */
+            transition: all 0.3s ease-out; /* Transición suave para cambios */
         }
 
         /* Encabezado */
         header h1 {
-            background: linear-gradient(45deg, #f59e0b, #ef4444); /* Gradiente naranja a rojo */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            /* Gradiente de texto naranja a rojo */
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            -webkit-background-clip: text; /* Aplica el fondo al texto */
+            -webkit-text-fill-color: transparent; /* Hace el color del texto transparente */
         }
 
         /* Barra de Progreso */
         #progress-bar-container {
-            width: 100%;
-            background-color: #e5e7eb; /* gray-200 */
-            border-radius: 9999px; /* full */
-            overflow: hidden;
+            width: 100%; /* Ancho completo */
+            background-color: #e5e7eb; /* Color de fondo gris claro (Tailwind gray-200) */
+            border-radius: 9999px; /* Bordes completamente redondeados */
+            overflow: hidden; /* Oculta el contenido que se desborda */
             margin-bottom: 1.5rem; /* Espacio debajo */
             height: 12px; /* Altura de la barra */
         }
         #progress-bar {
-            height: 100%;
-            width: 0%; /* Inicia en 0 */
-            background: linear-gradient(90deg, #3b82f6, #22d3ee); /* Gradiente azul a cyan */
-            border-radius: 9999px;
-            transition: width 0.5s ease-in-out; /* Animación suave */
+            height: 100%; /* Altura completa del contenedor */
+            width: 0%; /* Inicia en 0% de ancho */
+            /* Gradiente de fondo azul a cyan */
+            background: linear-gradient(90deg, #3b82f6, #22d3ee);
+            border-radius: 9999px; /* Bordes redondeados */
+            transition: width 0.5s ease-in-out; /* Animación suave para el cambio de ancho */
         }
          #progress-text {
-            text-align: center;
-            font-size: 0.8rem;
-            color: #6b7280; /* gray-500 */
+            text-align: center; /* Texto centrado */
+            font-size: 0.8rem; /* Tamaño de fuente pequeño */
+            color: #6b7280; /* Color de texto gris (Tailwind gray-500) */
             margin-top: 4px; /* Pequeño espacio arriba */
          }
 
         /* Bloques de Preguntas */
         .question-block {
-            margin-bottom: 1.5rem; /* mb-6 */
-            padding: 1rem; /* p-4 */
-            background-color: #f9fafb; /* gray-50 */
-            border-radius: 12px; /* rounded-xl */
-            border: 1px solid #e5e7eb; /* border-gray-200 */
-            transition: box-shadow 0.3s ease;
+            margin-bottom: 1.5rem; /* Espacio inferior (Tailwind mb-6) */
+            padding: 1rem; /* Relleno interno (Tailwind p-4) */
+            background-color: #f9fafb; /* Fondo gris muy claro (Tailwind gray-50) */
+            border-radius: 12px; /* Bordes redondeados (Tailwind rounded-xl) */
+            border: 1px solid #e5e7eb; /* Borde gris claro (Tailwind border-gray-200) */
+            transition: box-shadow 0.3s ease, border-color 0.3s ease; /* Transición suave para sombra y borde */
         }
-        .question-block:focus-within { /* Resaltar al interactuar */
-             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Anillo azul suave */
+        .question-block.invalid { /* Estilo para bloques con errores de validación */
+             border-color: #ef4444; /* Borde rojo (Tailwind red-500) */
+             box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3); /* Anillo rojo suave */
         }
+        .question-block:focus-within { /* Resaltar cuando un elemento interno tiene foco */
+             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Anillo azul suave al enfocar */
+        }
+         .error-message { /* Estilo para mensajes de error */
+            color: #dc2626; /* Rojo oscuro (Tailwind red-600) */
+            font-size: 0.875rem; /* Tamaño pequeño */
+            margin-top: 0.5rem; /* Espacio superior */
+            display: none; /* Oculto por defecto */
+         }
+         .question-block.invalid .error-message {
+             display: block; /* Mostrar mensaje en bloques inválidos */
+         }
+
 
         /* Opciones de Encuesta (Radio/Checkbox) */
         .survey-option label {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px; /* Más padding */
-            border: 2px solid #e5e7eb; /* gray-200, borde más grueso */
-            border-radius: 10px; /* rounded-lg */
-            cursor: pointer;
-            transition: all 0.25s ease-out;
-            margin-bottom: 8px;
-            background-color: white;
+            display: flex; /* Alineación flexible */
+            align-items: center; /* Centrado vertical */
+            padding: 12px 16px; /* Más relleno interno */
+            border: 2px solid #e5e7eb; /* Borde gris claro, más grueso */
+            border-radius: 10px; /* Bordes redondeados (Tailwind rounded-lg) */
+            cursor: pointer; /* Cursor de mano */
+            transition: all 0.25s ease-out; /* Transición suave para todos los cambios */
+            margin-bottom: 8px; /* Espacio inferior */
+            background-color: white; /* Fondo blanco */
         }
         .survey-option label:hover {
-            border-color: #9ca3af; /* gray-400 */
-            transform: translateY(-2px); /* Ligero levantamiento */
+            border-color: #9ca3af; /* Color de borde gris al pasar el mouse (Tailwind gray-400) */
+            transform: translateY(-2px); /* Ligero levantamiento al pasar el mouse */
         }
+        /* Estilo cuando el radio/checkbox está seleccionado */
         .survey-option input[type="radio"]:checked + label,
         .survey-option input[type="checkbox"]:checked + label {
-            background-color: #eff6ff; /* blue-50 */
-            border-color: #3b82f6; /* blue-500 */
-            color: #1e40af; /* blue-800 */
-            font-weight: 500; /* medium */
-            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2); /* Sombra azul */
-            transform: scale(1.02); /* Ligero zoom */
+            background-color: #eff6ff; /* Fondo azul muy claro (Tailwind blue-50) */
+            border-color: #3b82f6; /* Borde azul (Tailwind blue-500) */
+            color: #1e40af; /* Color de texto azul oscuro (Tailwind blue-800) */
+            font-weight: 500; /* Peso de fuente medio (Tailwind medium) */
+            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2); /* Sombra azul suave */
+            transform: scale(1.02); /* Ligero zoom al seleccionar */
         }
+        /* Ocultar el input original */
         .survey-option input[type="radio"],
         .survey-option input[type="checkbox"] {
-            display: none; /* Ocultar input original */
+            /* Ocultar visualmente pero mantener accesible */
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            width: 1px;
+            height: 1px;
         }
         .survey-option label span {
-            margin-left: 10px; /* Más espacio */
+            margin-left: 10px; /* Espacio a la izquierda del texto */
         }
 
         /* Campo 'Otro' */
         .other-input {
-            display: none;
-            margin-top: 10px;
-            transition: opacity 0.3s ease;
-            opacity: 0;
+            display: none; /* Oculto por defecto */
+            margin-top: 10px; /* Espacio superior */
+            transition: opacity 0.3s ease; /* Transición suave de opacidad */
+            opacity: 0; /* Inicialmente transparente */
         }
-        input[type="radio"]:checked ~ .other-input,
-        input[type="checkbox"]:checked ~ .other-input {
-            display: block;
-            opacity: 1;
+        /* Mostrar el campo 'Otro' cuando el radio/checkbox asociado está seleccionado */
+        .survey-option input[type="checkbox"]:checked ~ .other-input {
+            display: block; /* Mostrar como bloque */
+            opacity: 1; /* Hacer visible */
         }
         .other-input input {
-             border-color: #9ca3af; /* gray-400 */
+             border-color: #9ca3af; /* Color de borde gris (Tailwind gray-400) */
         }
 
-        /* Textareas y Inputs */
+        /* Textareas y Inputs de texto */
         textarea, input[type="text"] {
-             transition: border-color 0.3s, box-shadow 0.3s;
+             transition: border-color 0.3s, box-shadow 0.3s; /* Transición suave para borde y sombra */
         }
         textarea:focus, input[type="text"]:focus {
-            border-color: #3b82f6; /* blue-500 */
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Anillo foco */
-            outline: none; /* Quitar outline por defecto */
+            border-color: #3b82f6; /* Borde azul al enfocar (Tailwind blue-500) */
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Anillo de foco azul */
+            outline: none; /* Quitar el outline por defecto del navegador */
         }
 
         /* Botón de Envío */
         .submit-button {
-            background: linear-gradient(45deg, #f59e0b, #ef4444); /* Gradiente naranja a rojo */
-            color: white;
-            font-weight: 600; /* semibold */
-            padding: 14px 28px; /* Más grande */
-            border-radius: 10px; /* rounded-lg */
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
+            /* Gradiente de fondo naranja a rojo */
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            color: white; /* Color de texto blanco */
+            font-weight: 600; /* Peso de fuente semibold (Tailwind semibold) */
+            padding: 14px 28px; /* Relleno más grande */
+            border-radius: 10px; /* Bordes redondeados (Tailwind rounded-lg) */
+            transition: all 0.3s ease; /* Transición suave para todos los cambios */
+            border: none; /* Sin borde */
+            cursor: pointer; /* Cursor de mano */
             width: 100%; /* Ancho completo en móvil */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
         }
         .submit-button:hover {
-            transform: translateY(-3px) scale(1.03); /* Efecto hover */
-            box-shadow: 0 7px 14px rgba(239, 68, 68, 0.3); /* Sombra más pronunciada */
+            transform: translateY(-3px) scale(1.03); /* Efecto hover: levantar y escalar */
+            box-shadow: 0 7px 14px rgba(239, 68, 68, 0.3); /* Sombra roja más pronunciada */
         }
         .submit-button:active {
-             transform: translateY(-1px) scale(1.01); /* Efecto click */
-             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+             transform: translateY(-1px) scale(1.01); /* Efecto al hacer clic */
+             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra normal */
         }
 
         /* Contenedor de Resultados */
          #results-container h2 {
-             background: linear-gradient(45deg, #10b981, #22c55e); /* Gradiente esmeralda a verde */
+             /* Gradiente de texto esmeralda a verde */
+             background: linear-gradient(45deg, #10b981, #22c55e);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
          }
          #download-button {
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease; /* Transición suave */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
          }
           #download-button:hover {
-            transform: translateY(-2px);
+            transform: translateY(-2px); /* Levantar al pasar el mouse */
             box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3); /* Sombra azul */
           }
 
 
         /* Estilos responsivos */
-        @media (min-width: 640px) { /* sm */
+        @media (min-width: 640px) { /* A partir del breakpoint 'sm' de Tailwind (640px) */
             .submit-button {
-                width: auto; /* Ancho automático en pantallas más grandes */
+                width: auto; /* Ancho automático del botón en pantallas más grandes */
             }
             .main-container {
-                padding: 2rem;
+                padding: 2rem; /* Más relleno en el contenedor principal */
             }
             .question-block {
-                padding: 1.5rem;
+                padding: 1.5rem; /* Más relleno en los bloques de preguntas */
             }
+        }
+        /* Indicador visual de campo obligatorio */
+        .required-indicator {
+            color: #ef4444; /* Rojo (Tailwind red-500) */
+            font-weight: bold;
+            margin-left: 4px;
         }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-100 via-yellow-50 to-pink-100 min-h-screen flex items-center justify-center p-4">
-
     <div id="survey-container" class="main-container">
         <header class="text-center mb-6">
             <h1 class="text-4xl font-bold mb-2">🥳 ¡Opinión Cumpleaños! 🎂</h1>
             <p class="text-gray-600 text-lg">Queremos saber tu opinión para mejorar. ¡Es rápido, divertido y anónimo!</p>
+            <p class="text-sm text-gray-500 mt-2">Los campos marcados con <span class="required-indicator">*</span> son obligatorios.</p>
         </header>
 
         <div id="progress-bar-container">
             <div id="progress-bar"></div>
         </div>
-         <div id="progress-text">Progreso: 0%</div>
+         <div id="progress-text" class="text-center text-sm text-gray-500 mb-4">Progreso: 0%</div>
 
-        <form id="birthday-survey-form" class="mt-6" action="https://formspree.io/f/xjkwyeag" method="POST">  <div class="question-block">
-                <label class="block text-lg font-semibold text-gray-700 mb-3">1. ¿Qué opinaste del contenido del Box Birthday? 🎁</label>
+        <form id="birthday-survey-form" class="mt-6" action="https://formspree.io/f/xjkwyeag" method="POST" novalidate> <div class="question-block" data-question-id="q1">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">1. ¿Qué opinaste del contenido del Box Birthday? 🎁 <span class="required-indicator">*</span></label>
                 <div class="space-y-2">
                     <div class="survey-option">
                         <input type="radio" id="q1_encanto" name="q1_box_opinion" value="Me encantó" required>
@@ -216,15 +247,16 @@
                         <label for="q1_no_gusto">😞<span>No me gustó</span></label>
                     </div>
                 </div>
+                 <p class="error-message">Por favor, selecciona una opción.</p>
             </div>
 
-            <div class="question-block">
+            <div class="question-block" data-question-id="q2">
                 <label for="q2_cambios_regalo" class="block text-lg font-semibold text-gray-700 mb-3">2. ¿Qué agregarías o cambiarías del regalo? 🛍️</label>
                 <textarea id="q2_cambios_regalo" name="q2_cambios_regalo" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" placeholder="Escribe tus ideas aquí..."></textarea>
             </div>
 
-            <div class="question-block">
-                <label class="block text-lg font-semibold text-gray-700 mb-3">3. ¿Qué tipo de regalos preferirías? 🍫🍹🥨 <span class="text-sm text-gray-500">(Puedes marcar varios)</span></label>
+            <div class="question-block" data-question-id="q3">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">3. ¿Qué tipo de regalos preferirías? 🍫🍹🥨 <span class="required-indicator">*</span> <span class="text-sm text-gray-500">(Puedes marcar varios)</span></label>
                 <div class="space-y-2">
                      <div class="survey-option">
                         <input type="checkbox" id="q3_golosinas" name="q3_preferencias" value="Golosinas">
@@ -250,10 +282,11 @@
                         </div>
                     </div>
                 </div>
+                 <p class="error-message">Por favor, marca al menos una preferencia.</p>
             </div>
 
-            <div class="question-block">
-                <label class="block text-lg font-semibold text-gray-700 mb-3">4. ¿Cómo calificarías los bocaditos? 🍰🥐</label>
+            <div class="question-block" data-question-id="q4">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">4. ¿Cómo calificarías los bocaditos? 🍰🥐 <span class="required-indicator">*</span></label>
                 <div class="space-y-2">
                     <div class="survey-option">
                         <input type="radio" id="q4_deliciosos" name="q4_bocaditos_calificacion" value="Deliciosos" required>
@@ -272,15 +305,16 @@
                         <label for="q4_no_gustaron">👎<span>No me gustaron</span></label>
                     </div>
                 </div>
+                 <p class="error-message">Por favor, selecciona una calificación.</p>
             </div>
 
-            <div class="question-block">
+            <div class="question-block" data-question-id="q5">
                 <label for="q5_sugerencias_bocaditos" class="block text-lg font-semibold text-gray-700 mb-3">5. ¿Sugerencias de otros bocaditos o snacks? 📝</label>
                 <textarea id="q5_sugerencias_bocaditos" name="q5_sugerencias_bocaditos" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" placeholder="Comparte tus ideas..."></textarea>
             </div>
 
-            <div class="question-block">
-                <label class="block text-lg font-semibold text-gray-700 mb-3">6. ¿Otras comidas o bebidas preferidas? ☕🍹🥪 <span class="text-sm text-gray-500">(Puedes marcar varios)</span></label>
+            <div class="question-block" data-question-id="q6">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">6. ¿Otras comidas o bebidas preferidas? ☕🍹🥪 <span class="required-indicator">*</span> <span class="text-sm text-gray-500">(Puedes marcar varios)</span></label>
                 <div class="space-y-2">
                     <div class="survey-option">
                         <input type="checkbox" id="q6_cafe" name="q6_comidas" value="Café con sandwich o churros">
@@ -306,10 +340,11 @@
                          </div>
                     </div>
                 </div>
+                 <p class="error-message">Por favor, marca al menos una opción.</p>
             </div>
 
-            <div class="question-block">
-                <label class="block text-lg font-semibold text-gray-700 mb-3">7. Sobre el gasto (S/395 bocaditos, S/60 regalo): ¿Reducir bocaditos para aumentar regalo? 💰</label>
+            <div class="question-block" data-question-id="q7">
+                <label class="block text-lg font-semibold text-gray-700 mb-3">7. Sobre el gasto (S/395 bocaditos, S/60 regalo): ¿Reducir bocaditos para aumentar regalo? 💰 <span class="required-indicator">*</span></label>
                 <div class="space-y-2">
                     <div class="survey-option">
                         <input type="radio" id="q7_aumentar_regalo" name="q7_gasto_preferencia" value="Sí, prefiero aumentar el valor del regalo" required>
@@ -324,9 +359,10 @@
                         <label for="q7_conforme">❓<span>Estoy conforme</span></label>
                     </div>
                 </div>
+                 <p class="error-message">Por favor, selecciona una preferencia.</p>
             </div>
 
-            <div class="question-block">
+            <div class="question-block" data-question-id="q8">
                 <label for="q8_sugerencias_adicionales" class="block text-lg font-semibold text-gray-700 mb-3">8. ¿Alguna idea o sugerencia adicional? ✨</label>
                 <textarea id="q8_sugerencias_adicionales" name="q8_sugerencias_adicionales" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition" placeholder="¡Cualquier idea es bienvenida!"></textarea>
             </div>
@@ -358,222 +394,297 @@
     </div>
 
     <script>
+        // Obtener referencias a elementos del DOM
         const form = document.getElementById('birthday-survey-form');
         const surveyContainer = document.getElementById('survey-container');
         const resultsContainer = document.getElementById('results-container');
         const downloadButton = document.getElementById('download-button');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
-        const totalQuestions = document.querySelectorAll('.question-block').length;
-        let userResponses = {};
+        const questionBlocks = form.querySelectorAll('.question-block'); // Obtener todos los bloques de preguntas
+        let userResponses = {}; // Objeto para almacenar las respuestas del usuario
 
-        // --- Lógica para Barra de Progreso ---
+        // --- Definir qué preguntas son obligatorias ---
+        const requiredQuestions = ['q1', 'q3', 'q4', 'q6', 'q7']; // IDs de data-question-id
+
+        // --- Lógica de la Barra de Progreso ---
         function updateProgress() {
-            let completedQuestions = 0;
-            const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
-            const questionBlocks = form.querySelectorAll('.question-block');
-            let answeredBlocks = new Set();
+            let answeredRequiredCount = 0;
+            const totalRequiredCount = requiredQuestions.length;
 
-            questionBlocks.forEach((block, index) => {
-                const radios = block.querySelectorAll('input[type="radio"][required]');
-                const checkboxes = block.querySelectorAll('input[type="checkbox"][required]');
-                const textareas = block.querySelectorAll('textarea[required]');
-                const inputsText = block.querySelectorAll('input[type="text"][required]');
+            requiredQuestions.forEach(questionId => {
+                const block = form.querySelector(`.question-block[data-question-id="${questionId}"]`);
+                if (!block) return; // Saltar si no se encuentra el bloque
 
-                 let blockAnswered = false;
+                let isAnswered = false;
+                const radios = block.querySelectorAll('input[type="radio"]');
+                const checkboxes = block.querySelectorAll('input[type="checkbox"]');
 
-                 if (radios.length > 0) {
-                     const groupName = radios[0].name;
-                     if (form.querySelector(`input[name="${groupName}"]:checked`)) {
-                         blockAnswered = true;
-                     }
-                 } else if (checkboxes.length > 0) {
-                    if (block.querySelector('input[type="checkbox"][required]:checked')) {
-                         blockAnswered = true;
+                if (radios.length > 0) {
+                    // Verificar si algún radio en el grupo está marcado
+                    if (block.querySelector('input[type="radio"]:checked')) {
+                        isAnswered = true;
                     }
-                 } else if (textareas.length > 0) {
-                     if (textareas[0].value.trim() !== '') {
-                         blockAnswered = true;
+                } else if (checkboxes.length > 0) {
+                    // Verificar si al menos un checkbox está marcado, considerando el campo de texto 'Otro'
+                    const checkedCheckboxes = block.querySelectorAll('input[type="checkbox"]:checked');
+                    let validCheck = false;
+                    checkedCheckboxes.forEach(cb => {
+                        if (cb.id.endsWith('_otro')) { // Si es el checkbox 'Otro'
+                           const textField = document.getElementById(cb.id.replace('_otro','_otro_texto'));
+                           if (textField && textField.value.trim() !== '') {
+                               validCheck = true; // Contar 'Otro' solo si el texto está lleno
+                           }
+                        } else {
+                            validCheck = true; // Contar checkboxes normales
+                        }
+                    });
+                     if (validCheck) {
+                        isAnswered = true;
                      }
-                 } else if (inputsText.length > 0) {
-                     if (inputsText[0].offsetParent !== null && inputsText[0].value.trim() !== '') {
-                         blockAnswered = true;
-                     } else if (inputsText[0].offsetParent === null) {
-                     }
-                 } else {
-                      const anyInteraction = block.querySelector('input:checked, textarea:not(:placeholder-shown)');
-                      if(anyInteraction || block.querySelectorAll('[required]').length === 0) {
-                      }
-                 }
+                }
 
-                 if (!blockAnswered) {
-                    const anyInputFilled = block.querySelector('input:checked, textarea:valid');
-                    if (anyInputFilled && block.querySelectorAll('[required]').length === 0) {
-                    }
-                 }
-
-
-                if (blockAnswered) {
-                    answeredBlocks.add(index);
+                if (isAnswered) {
+                    answeredRequiredCount++;
+                    // Opcional: quitar el estado inválido si se responde (aunque la validación al enviar es la principal)
+                    // block.classList.remove('invalid');
                 }
             });
 
-            let requiredBlocksAnswered = 0;
-             questionBlocks.forEach((block, index) => {
-                 if (block.querySelector('[required]') && answeredBlocks.has(index)) {
-                     requiredBlocksAnswered++;
-                 }
-             });
-             const requiredBlocksTotal = form.querySelectorAll('.question-block:has([required])').length;
-
-
-            const totalForProgress = requiredBlocksTotal > 0 ? requiredBlocksTotal : totalQuestions;
-            const answeredForProgress = requiredBlocksTotal > 0 ? requiredBlocksAnswered : answeredBlocks.size;
-
-            const progress = totalForProgress > 0 ? Math.round((answeredForProgress / totalForProgress) * 100) : 0;
-            progressBar.style.width = `${progress}%`;
-            progressText.textContent = `Progreso: ${progress}%`;
+            // Calcular y actualizar progreso
+            const progress = totalRequiredCount > 0 ? Math.round((answeredRequiredCount / totalRequiredCount) * 100) : 0;
+            progressBar.style.width = `${progress}%`; // Actualizar ancho de la barra
+            progressText.textContent = `Progreso: ${progress}%`; // Actualizar texto del progreso
         }
 
+        // Actualizar progreso al cambiar o ingresar datos en el formulario
         form.addEventListener('change', updateProgress);
         form.addEventListener('input', updateProgress);
-        updateProgress();
+        updateProgress(); // Calcular progreso inicial al cargar la página
 
-
+        // --- Lógica para mostrar/ocultar y enfocar campos 'Otro' ---
         function setupOtherInputToggle(checkboxId, textInputId) {
             const checkbox = document.getElementById(checkboxId);
             const textInput = document.getElementById(textInputId);
-            const otherInputContainer = textInput ? textInput.closest('.other-input') : null;
+            const otherInputContainer = textInput ? textInput.closest('.other-input') : null; // Contenedor del input 'Otro'
 
             if (checkbox && textInput && otherInputContainer) {
                 checkbox.addEventListener('change', () => {
+                    const block = checkbox.closest('.question-block'); // Obtener el bloque padre
                     if (checkbox.checked) {
+                        // Mostrar el contenedor del input 'Otro'
                         otherInputContainer.style.display = 'block';
+                        textInput.required = true; // Hacer el input de texto requerido cuando 'Otro' está marcado
+                        // Usar setTimeout para asegurar que el elemento sea visible antes de enfocar
                         setTimeout(() => {
                              otherInputContainer.style.opacity = '1';
-                        }, 10);
-                        textInput.required = true;
+                             textInput.focus(); // *** Establecer foco en el input de texto ***
+                        }, 10); // Pequeño retraso para transición y renderizado
                     } else {
+                        // Ocultar, limpiar y hacer no requerido el input 'Otro'
                         otherInputContainer.style.opacity = '0';
+                        textInput.required = false; // Ya no es requerido
                         setTimeout(() => {
                              otherInputContainer.style.display = 'none';
-                             textInput.value = '';
-                             textInput.required = false;
-                             updateProgress();
-                        }, 300);
+                             textInput.value = ''; // Limpiar valor
+                             // Revalidar el bloque padre si es necesario, ya que el requerimiento cambió
+                             if (block) validateBlockOnChange(block);
+                             updateProgress(); // Recalcular progreso
+                        }, 300); // Esperar que termine la transición de opacidad
                     }
-                     updateProgress();
+                    // Validar el bloque inmediatamente después del cambio
+                    if (block) validateBlockOnChange(block);
+                    updateProgress(); // Recalcular progreso cuando 'Otro' se marca/desmarca
                 });
+                // Estado inicial: oculto y no requerido
                 otherInputContainer.style.display = 'none';
                 otherInputContainer.style.opacity = '0';
                 textInput.required = false;
             } else {
+                // Advertencia si no se encuentran los elementos
                 console.warn(`Checkbox (${checkboxId}) or TextInput (${textInputId}) or its container not found.`);
             }
         }
 
+        // Configurar los toggles para las preguntas 3 y 6
         setupOtherInputToggle('q3_otro', 'q3_otro_texto');
         setupOtherInputToggle('q6_otro', 'q6_otro_texto');
 
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
 
-             const formData = new FormData(form);
-            userResponses = {};
-             formData.forEach((value, key) => {
-                if (key.endsWith('_otro_check')) return;
-                if (key.endsWith('_otro_texto')) {
-                    const checkKey = key.replace('_texto', '_check');
-                    if (!formData.has(checkKey)) return;
-                 }
+        // --- Función para validar un solo bloque de pregunta (usada en 'change'/'input') ---
+        function validateBlockOnChange(block) {
+            if (!block) return true;
 
-                 if (form.elements[key] && (form.elements[key].type === 'checkbox' || (form.elements[key].length > 0 && form.elements[key][0]?.type === 'checkbox'))) {
-                     if (!userResponses[key]) userResponses[key] = [];
-                     if(key.endsWith('_otro_texto') && value.trim() !== '') {
-                         const baseKey = key.replace('_otro_texto', '');
-                         if (!userResponses[baseKey]) userResponses[baseKey] = [];
-                         const otroIndex = userResponses[baseKey].indexOf('Otro');
-                         if (otroIndex > -1) userResponses[baseKey][otroIndex] = `Otro: ${value.trim()}`;
-                         else userResponses[baseKey].push(`Otro: ${value.trim()}`);
-                     } else if (!key.endsWith('_otro_texto')) {
-                        userResponses[key].push(value);
-                     }
-                 } else if (key.endsWith('_otro_texto') && value.trim() === '') {
-                 }
-                 else {
-                    userResponses[key] = value.trim();
-                }
-            });
-             Object.keys(userResponses).forEach(key => {
-                if (Array.isArray(userResponses[key])) {
-                    userResponses[key] = userResponses[key].filter(item => item !== 'Otro');
-                }
-             });
-
-            console.log('Respuestas recolectadas:', userResponses);
-
-            // --- Validar que todas las preguntas obligatorias estén respondidas ---
-            const requiredInputs = form.querySelectorAll('[required]');
-            let isFormValid = true;
-            let firstMissingQuestion = null; // Variable para almacenar la primera pregunta faltante
-
-            requiredInputs.forEach(input => {
-                if (!input.value.trim() && (input.type === 'text' || input.type === 'textarea')) {
-                    isFormValid = false;
-                    if (!firstMissingQuestion) {
-                        firstMissingQuestion = input.closest('.question-block').querySelector('label').textContent;
-                    }
-                } else if (input.type === 'radio' || input.type === 'checkbox') {
-                    const groupName = input.name;
-                    const groupInputs = form.querySelectorAll(`[name="${groupName}"]`);
-                    let isGroupValid = false;
-                    groupInputs.forEach(groupInput => {
-                        if (groupInput.checked) {
-                            isGroupValid = true;
-                        }
-                    });
-                    if (!isGroupValid) {
-                        isFormValid = false;
-                        if (!firstMissingQuestion) {
-                             firstMissingQuestion = input.closest('.question-block').querySelector('label').textContent;
-                        }
-                    }
-                }
-            });
-
-            if (!isFormValid) {
-                alert(`Por favor, responde todas las preguntas obligatorias. Falta responder: ${firstMissingQuestion}`);
-                return; // Detener el envío si faltan preguntas
+            const questionId = block.getAttribute('data-question-id');
+            // Solo validar si es una pregunta requerida
+            if (!requiredQuestions.includes(questionId)) {
+                 block.classList.remove('invalid'); // Asegurar que los no requeridos nunca estén marcados como inválidos
+                 return true;
             }
 
+            let isAnswered = false;
+            const radios = block.querySelectorAll('input[type="radio"]');
+            const checkboxes = block.querySelectorAll('input[type="checkbox"]');
+            const otherCheckbox = block.querySelector('input[type="checkbox"][id$="_otro"]');
+            const otherTextInput = otherCheckbox ? document.getElementById(otherCheckbox.id.replace('_otro', '_otro_texto')) : null;
+
+            if (radios.length > 0) {
+                if (block.querySelector('input[type="radio"]:checked')) {
+                    isAnswered = true;
+                }
+            } else if (checkboxes.length > 0) {
+                const checkedCheckboxes = block.querySelectorAll('input[type="checkbox"]:checked');
+                 if (checkedCheckboxes.length > 0) {
+                     if (otherCheckbox && otherCheckbox.checked) {
+                         // Si 'Otro' está marcado, su texto debe estar lleno para contar como respondido
+                         if (otherTextInput && otherTextInput.value.trim() !== '') {
+                            isAnswered = true;
+                         } else if (checkedCheckboxes.length > 1) {
+                            // Si 'Otro' está marcado pero vacío, pero hay otros checkboxes marcados, está respondido
+                            isAnswered = true;
+                         } else {
+                            isAnswered = false; // Solo 'Otro' marcado y vacío
+                         }
+                     } else {
+                         isAnswered = true; // Al menos un checkbox normal está marcado
+                     }
+                 }
+                 // Asegurar que el estado 'required' del input 'Otro' sea correcto
+                 if (otherCheckbox && otherTextInput) {
+                    otherTextInput.required = otherCheckbox.checked;
+                 }
+            }
+
+            // Quitar la clase 'invalid' si ahora está respondido
+            if (isAnswered) {
+                block.classList.remove('invalid');
+            }
+            // NO añadir la clase 'invalid' aquí, eso se hace solo al intentar enviar
+            return isAnswered;
+        }
+
+
+        // --- Validación del Formulario Completo al Intentar Enviar ---
+        function validateFormOnSubmit() {
+            let isFormValid = true;
+            let firstInvalidElement = null;
+
+            // Limpiar estados inválidos previos
+            questionBlocks.forEach(block => block.classList.remove('invalid'));
+
+            requiredQuestions.forEach(questionId => {
+                const block = form.querySelector(`.question-block[data-question-id="${questionId}"]`);
+                if (!block) return;
+
+                // Usar la lógica de validación de bloque
+                if (!validateBlockOnChange(block)) { // Reutilizamos la lógica de validación
+                    isFormValid = false;
+                    block.classList.add('invalid'); // Añadir clase inválida *ahora* al fallar en el envío
+                    if (!firstInvalidElement) {
+                        // Encontrar el primer elemento enfocable dentro del bloque inválido
+                        firstInvalidElement = block.querySelector('input[type="radio"], input[type="checkbox"], input[type="text"], textarea, select');
+                    }
+                }
+            });
+
+             if (!isFormValid && firstInvalidElement) {
+                 // Desplazar suavemente al primer elemento inválido y enfocarlo
+                 firstInvalidElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                 // Retrasar ligeramente el foco después del desplazamiento
+                 setTimeout(() => {
+                    // Enfocar el elemento. preventScroll puede ayudar a evitar saltos.
+                    firstInvalidElement.focus({ preventScroll: true });
+                 }, 300); // Ajustar retraso si es necesario
+                 alert('Por favor, completa todos los campos obligatorios marcados con *.');
+             }
+
+            return isFormValid;
+        }
+
+
+        // --- Manejo del Envío del Formulario ---
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevenir envío por defecto del formulario
+
+            // Validar el formulario usando la lógica personalizada al intentar enviar
+            if (!validateFormOnSubmit()) {
+                return; // Detener el envío si la validación falla
+            }
+
+            // --- Recolectar datos del formulario (misma lógica que antes) ---
+            const formData = new FormData(form);
+            userResponses = {}; // Limpiar respuestas previas
+            formData.forEach((value, key) => {
+                // Ignorar los checkboxes de control 'Otro'
+                if (key.endsWith('_otro_check')) return;
+                // Si es un input de texto 'Otro', solo incluir si el checkbox correspondiente está marcado Y tiene valor
+                if (key.endsWith('_otro_texto')) {
+                    const checkKey = key.replace('_texto', '_check');
+                    if (!formData.has(checkKey) || value.trim() === '') return;
+                }
+                // Manejar checkboxes (pueden tener múltiples valores)
+                if (form.elements[key] && (form.elements[key].type === 'checkbox' || (form.elements[key].length > 0 && form.elements[key][0]?.type === 'checkbox'))) {
+                    if (!userResponses[key]) userResponses[key] = []; // Inicializar array si no existe
+                    // Si es el texto de 'Otro' y no está vacío, añadirlo formateado
+                    if(key.endsWith('_otro_texto') && value.trim() !== '') {
+                        const baseKey = key.replace('_otro_texto', ''); // Obtener nombre base (e.g., 'q3_preferencias')
+                        if (!userResponses[baseKey]) userResponses[baseKey] = [];
+                        // Reemplazar 'Otro' si existe, o añadirlo formateado
+                        const otroIndex = userResponses[baseKey].indexOf('Otro');
+                        if (otroIndex > -1) { userResponses[baseKey][otroIndex] = `Otro: ${value.trim()}`; }
+                        else { userResponses[baseKey].push(`Otro: ${value.trim()}`); }
+                    } else if (!key.endsWith('_otro_texto')) {
+                       // Añadir valor del checkbox normal (no el de control 'Otro')
+                       userResponses[key].push(value);
+                    }
+                }
+                // Manejar otros tipos de input (radio, text, textarea), asegurándose de no duplicar el texto 'Otro'
+                else if (!key.endsWith('_otro_texto')) {
+                   userResponses[key] = value.trim();
+               }
+           });
+            // Limpieza final: remover el valor 'Otro' si existe una entrada formateada 'Otro: ...'
+            Object.keys(userResponses).forEach(key => {
+               if (Array.isArray(userResponses[key])) {
+                   const hasSpecificOtro = userResponses[key].some(v => typeof v === 'string' && v.startsWith('Otro: '));
+                   if (hasSpecificOtro) {
+                       userResponses[key] = userResponses[key].filter(item => item !== 'Otro');
+                   }
+               }
+            });
+            console.log('Respuestas recolectadas para CSV:', userResponses);
+
+
+            // --- Enviar a Formspree usando Fetch API (misma lógica que antes) ---
             fetch(form.action, {
                 method: 'POST',
                 body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
+                headers: { 'Accept': 'application/json' }
             })
             .then(response => {
                 if (response.ok) {
                     console.log('Formulario enviado exitosamente a Formspree');
+                    // Ocultar formulario con transición
                     surveyContainer.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
                     surveyContainer.style.opacity = '0';
                     surveyContainer.style.transform = 'scale(0.95)';
-
+                    // Mostrar contenedor de resultados después de la transición
                     setTimeout(() => {
-                        surveyContainer.style.display = 'none';
-                        resultsContainer.style.display = 'block';
-                        resultsContainer.style.opacity = '0';
-                        resultsContainer.style.transform = 'scale(0.95)';
+                        surveyContainer.style.display = 'none'; // Ocultar completamente
+                        resultsContainer.style.display = 'block'; // Mostrar contenedor de resultados
+                        resultsContainer.style.opacity = '0'; // Iniciar transparente
+                        resultsContainer.style.transform = 'scale(0.95)'; // Iniciar escalado
+                        // Animar aparición del contenedor de resultados
                         setTimeout(() => {
                              resultsContainer.style.transition = 'opacity 0.5s ease-in, transform 0.5s ease-in';
                              resultsContainer.style.opacity = '1';
                              resultsContainer.style.transform = 'scale(1)';
-                             triggerConfetti();
-                        }, 50);
-                    }, 500);
-
+                             triggerConfetti(); // Lanzar confeti
+                             downloadButton.style.display = 'inline-flex'; // Mostrar botón de descarga
+                        }, 50); // Pequeño retraso para asegurar renderizado inicial
+                    }, 500); // Tiempo igual a la duración de la transición de ocultación
                 } else {
+                    // Manejar error de envío
                     response.json().then(data => {
                         console.error('Error al enviar el formulario a Formspree:', data);
                         alert('Hubo un error al enviar tu respuesta. Por favor, inténtalo de nuevo.');
@@ -581,80 +692,102 @@
                 }
             })
             .catch(error => {
-                console.error('Error al enviar el formulario:', error);
-                alert('Hubo un error al enviar tu respuesta. Por favor, inténtalo de nuevo.');
+                // Manejar error de red u otro
+                console.error('Error de red al enviar el formulario:', error);
+                alert('Hubo un error de conexión al enviar tu respuesta. Por favor, verifica tu conexión e inténtalo de nuevo.');
             });
         });
 
+        // --- Función para lanzar animación de confeti (misma lógica que antes) ---
         function triggerConfetti() {
             const canvas = document.getElementById('confetti-canvas');
-             const myConfetti = confetti.create(canvas, {
-                 resize: true,
-                 useWorker: true
+            // Crear instancia de confeti asociada al canvas
+            const myConfetti = confetti.create(canvas, {
+                 resize: true, // Permitir redimensionar
+                 useWorker: true // Usar Web Worker para rendimiento
              });
-
-             myConfetti({
-                 particleCount: 150,
-                 spread: 100,
-                 origin: { y: 0.6 }
-             });
-
+             // Lanzar primera tanda
+             myConfetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+             // Lanzar más desde los lados después de un retraso
              setTimeout(() => {
-                  myConfetti({
-                     particleCount: 100,
-                     spread: 120,
-                     origin: { y: 0.7, x: 0.3 },
-                     angle: 60
-                 });
-                  myConfetti({
-                     particleCount: 100,
-                     spread: 120,
-                     origin: { y: 0.7,x: 0.7 },angle: 120
-                 });
+                  myConfetti({ particleCount: 100, spread: 120, origin: { y: 0.7, x: 0.3 }, angle: 60 });
+                  myConfetti({ particleCount: 100, spread: 120, origin: { y: 0.7,x: 0.7 }, angle: 120 });
              }, 300);
         }
 
+        // --- Lógica para el botón de descarga CSV (revisar claves si es necesario) ---
         downloadButton.addEventListener('click', () => {
-            let csvContent = "data:text/csv;charset=utf-8,";
+            let csvContent = "data:text/csv;charset=utf-8,"; // Encabezado Data URI
+            // Definir cabeceras CSV (corresponden a las preguntas)
             const headers = [
-                "Opinion Regalo (Q1)", "Cambios Regalo (Q2)", "Preferencia Regalos (Q3)", "Otro Regalo (Q3)",
+                "Opinion Regalo (Q1)", "Cambios/Sugerencias Regalo (Q2)", "Preferencia Tipo Regalos (Q3)",
                 "Calificacion Bocaditos (Q4)", "Sugerencias Bocaditos (Q5)",
-                "Preferencia Comidas (Q6)", "Otra Comida (Q6)", "Preferencia Gasto (Q7)", "Sugerencias Adicionales (Q8)"
+                "Preferencia Comidas/Bebidas (Q6)", "Preferencia Gasto (Q7)", "Sugerencias Adicionales (Q8)"
             ];
-            csvContent += headers.join(",") + "\r\n";
+            // Mapear cabeceras para escaparlas correctamente
+            csvContent += headers.map(header => `"${header.replace(/"/g, '""')}"`).join(",") + "\r\n";
 
+            // Función auxiliar para obtener y formatear respuestas
+            const getResponse = (key, isArray = false, isText = false) => {
+                let value = userResponses[key];
+                // Manejar correctamente arrays (checkboxes)
+                if (isArray && Array.isArray(value)) {
+                     // Unir elementos con punto y coma, asegurándose de que sean strings
+                     return value.map(v => String(v)).join('; ');
+                }
+                // Devolver vacío si no hay respuesta
+                if (typeof value === 'undefined' || value === null) return '';
+                // Asegurar que sea string para campos de texto
+                if (isText) return String(value);
+                // Devolver el valor para otros casos (radios)
+                return value;
+            };
+
+            // Crear fila de datos usando las respuestas del usuario
             const rowData = [
-                userResponses['q1_box_opinion'] || '',
-                `"${(userResponses['q2_cambios_regalo'] || '').replace(/"/g, '""')}"`,
-                (userResponses['q3_preferencias'] || []).filter(v => !v.startsWith('Otro:')).join('; '),
-                (userResponses['q3_preferencias'] || []).find(v => v.startsWith('Otro:'))?.substring(6).trim() || '',
-                userResponses['q4_bocaditos_calificacion'] || '',
-                `"${(userResponses['q5_sugerencias_bocaditos'] || '').replace(/"/g, '""')}"`,
-                (userResponses['q6_comidas'] || []).filter(v => !v.startsWith('Otro:')).join('; '),
-                (userResponses['q6_comidas'] || []).find(v => v.startsWith('Otro:'))?.substring(6).trim() || '',
-                userResponses['q7_gasto_preferencia'] || '',
-                `"${(userResponses['q8_sugerencias_adicionales'] || '').replace(/"/g, '""')}"`
+                getResponse('q1_box_opinion'),
+                getResponse('q2_cambios_regalo', false, true), // Texto libre
+                getResponse('q3_preferencias', true), // Array unido por ';'
+                getResponse('q4_bocaditos_calificacion'),
+                getResponse('q5_sugerencias_bocaditos', false, true), // Texto libre
+                getResponse('q6_comidas', true), // Array unido por ';'
+                getResponse('q7_gasto_preferencia'),
+                getResponse('q8_sugerencias_adicionales', false, true) // Texto libre
             ];
 
+
+            // Sanitizar cada celda para CSV (manejar comas, comillas, saltos de línea)
             const sanitizedRowData = rowData.map(value => {
                 if (value === null || typeof value === 'undefined') return '';
                 let strValue = String(value);
-                 strValue = strValue.replace(/"/g, '""');
+                 strValue = strValue.replace(/"/g, '""'); // Escapar comillas dobles
+                 // Encerrar entre comillas dobles si contiene caracteres especiales
                  if (strValue.includes(',') || strValue.includes('\n') || strValue.includes('"')) {
                     return `"${strValue}"`;
                  }
-                return strValue;
+                return strValue; // Devolver sin comillas si no es necesario
             });
 
-            csvContent += sanitizedRowData.join(",") + "\r\n";
+            csvContent += sanitizedRowData.join(",") + "\r\n"; // Añadir fila al contenido CSV
 
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "mis_respuestas_cumpleanos.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Crear y simular clic en enlace de descarga
+            const encodedUri = encodeURI(csvContent); // Codificar contenido para URI
+            const link = document.createElement("a"); // Crear elemento <a>
+            link.setAttribute("href", encodedUri); // Establecer Data URI como href
+            link.setAttribute("download", "mis_respuestas_cumpleanos.csv"); // Nombre del archivo
+            document.body.appendChild(link); // Añadir al DOM (necesario para Firefox)
+            link.click(); // Simular clic para iniciar descarga
+            document.body.removeChild(link); // Eliminar enlace del DOM
+        });
+
+        // Añadir listeners a los bloques requeridos para quitar errores al interactuar
+        requiredQuestions.forEach(questionId => {
+            const block = form.querySelector(`.question-block[data-question-id="${questionId}"]`);
+            if (block) {
+                // Validar al cambiar selección (radio/checkbox) o al escribir (input/textarea)
+                block.addEventListener('change', () => validateBlockOnChange(block));
+                block.addEventListener('input', () => validateBlockOnChange(block));
+            }
         });
 
     </script>
