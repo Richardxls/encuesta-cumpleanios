@@ -196,9 +196,7 @@
         </div>
          <div id="progress-text">Progreso: 0%</div>
 
-        <form id="birthday-survey-form" class="mt-6">
-
-            <div class="question-block">
+        <form id="birthday-survey-form" class="mt-6" action="https://formspree.io/f/xjkwyeag" method="POST">  <div class="question-block">
                 <label class="block text-lg font-semibold text-gray-700 mb-3">1. ¿Qué opinaste del contenido del Box Birthday? 🎁</label>
                 <div class="space-y-2">
                     <div class="survey-option">
@@ -350,9 +348,9 @@
             <p class="text-gray-500 italic">(Aquí se mostrarían gráficos con los resultados agregados)</p>
         </div>
 
-        <button id="download-button" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 inline-flex items-center text-base">
+        <button id="download-button" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 inline-flex items-center text-base" style="display:none;">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+              <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 010 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
             Descargar mis Respuestas (CSV)
         </button>
@@ -366,33 +364,30 @@
         const downloadButton = document.getElementById('download-button');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
-        const totalQuestions = document.querySelectorAll('.question-block').length; // Contar bloques de preguntas
+        const totalQuestions = document.querySelectorAll('.question-block').length;
         let userResponses = {};
 
         // --- Lógica para Barra de Progreso ---
         function updateProgress() {
             let completedQuestions = 0;
-            const inputs = form.querySelectorAll('input[required], textarea[required], select[required]'); // Considerar requeridos
+            const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
             const questionBlocks = form.querySelectorAll('.question-block');
-            let answeredBlocks = new Set(); // Para no contar el mismo bloque varias veces
+            let answeredBlocks = new Set();
 
-            // Chequear radios/checkboxes requeridos dentro de cada bloque
             questionBlocks.forEach((block, index) => {
                 const radios = block.querySelectorAll('input[type="radio"][required]');
-                const checkboxes = block.querySelectorAll('input[type="checkbox"][required]'); // Si hubiera checkboxes requeridos
+                const checkboxes = block.querySelectorAll('input[type="checkbox"][required]');
                 const textareas = block.querySelectorAll('textarea[required]');
-                const inputsText = block.querySelectorAll('input[type="text"][required]'); // Incluir 'Otro' requerido
+                const inputsText = block.querySelectorAll('input[type="text"][required]');
 
                  let blockAnswered = false;
 
                  if (radios.length > 0) {
-                     // Check if any radio in the group is checked
                      const groupName = radios[0].name;
                      if (form.querySelector(`input[name="${groupName}"]:checked`)) {
                          blockAnswered = true;
                      }
                  } else if (checkboxes.length > 0) {
-                    // Check if at least one required checkbox is checked
                     if (block.querySelector('input[type="checkbox"][required]:checked')) {
                          blockAnswered = true;
                     }
@@ -401,30 +396,19 @@
                          blockAnswered = true;
                      }
                  } else if (inputsText.length > 0) {
-                     // Check if the required 'Otro' text input has value
-                     if (inputsText[0].offsetParent !== null && inputsText[0].value.trim() !== '') { // Check if visible and has value
+                     if (inputsText[0].offsetParent !== null && inputsText[0].value.trim() !== '') {
                          blockAnswered = true;
                      } else if (inputsText[0].offsetParent === null) {
-                        // If the required text input is hidden (because 'Otro' isn't checked), consider the block potentially answered by other means or not applicable yet.
-                        // This logic might need refinement depending on exact requirements for 'Otro' fields being required.
-                        // For simplicity now, we won't count it as answered if the text field is required but hidden.
                      }
                  } else {
-                     // If block has no required fields, consider it "answered" by default for progress? Or maybe only count blocks with required fields?
-                     // Let's count blocks that have *any* interaction or are not required
-                     const anyInteraction = block.querySelector('input:checked, textarea:not(:placeholder-shown)'); // Basic check
+                      const anyInteraction = block.querySelector('input:checked, textarea:not(:placeholder-shown)');
                       if(anyInteraction || block.querySelectorAll('[required]').length === 0) {
-                         // This part is tricky. Let's refine to count answered *required* questions.
-                         // Sticking to the required field check above is safer.
                       }
                  }
 
-                 // Check non-required fields for general progress feel
                  if (!blockAnswered) {
-                    const anyInputFilled = block.querySelector('input:checked, textarea:valid'); // Check if *any* input has value or is checked
+                    const anyInputFilled = block.querySelector('input:checked, textarea:valid');
                     if (anyInputFilled && block.querySelectorAll('[required]').length === 0) {
-                         // Consider non-required block answered if something is filled
-                         // blockAnswered = true; // Uncomment if you want non-required fields to contribute more actively
                     }
                  }
 
@@ -434,7 +418,6 @@
                 }
             });
 
-            // Calculate progress based on *required* questions answered
             let requiredBlocksAnswered = 0;
              questionBlocks.forEach((block, index) => {
                  if (block.querySelector('[required]') && answeredBlocks.has(index)) {
@@ -444,7 +427,6 @@
              const requiredBlocksTotal = form.querySelectorAll('.question-block:has([required])').length;
 
 
-            // Calculate percentage based on required blocks, or total blocks if none are required
             const totalForProgress = requiredBlocksTotal > 0 ? requiredBlocksTotal : totalQuestions;
             const answeredForProgress = requiredBlocksTotal > 0 ? requiredBlocksAnswered : answeredBlocks.size;
 
@@ -453,39 +435,35 @@
             progressText.textContent = `Progreso: ${progress}%`;
         }
 
-        // Actualizar progreso en cada cambio
         form.addEventListener('change', updateProgress);
-        form.addEventListener('input', updateProgress); // Para textareas
-        // Llamada inicial
+        form.addEventListener('input', updateProgress);
         updateProgress();
 
 
-        // --- Lógica para habilitar/deshabilitar campos 'Otro' ---
         function setupOtherInputToggle(checkboxId, textInputId) {
             const checkbox = document.getElementById(checkboxId);
             const textInput = document.getElementById(textInputId);
-            const otherInputContainer = textInput ? textInput.closest('.other-input') : null; // Get the container
+            const otherInputContainer = textInput ? textInput.closest('.other-input') : null;
 
             if (checkbox && textInput && otherInputContainer) {
                 checkbox.addEventListener('change', () => {
                     if (checkbox.checked) {
                         otherInputContainer.style.display = 'block';
-                        setTimeout(() => { // Allow display block to apply before transition
+                        setTimeout(() => {
                              otherInputContainer.style.opacity = '1';
                         }, 10);
-                        textInput.required = true; // Hacer requerido si se marca 'Otro'
+                        textInput.required = true;
                     } else {
                         otherInputContainer.style.opacity = '0';
-                        setTimeout(() => { // Hide after transition
+                        setTimeout(() => {
                              otherInputContainer.style.display = 'none';
-                             textInput.value = ''; // Limpiar si se desmarca
-                             textInput.required = false; // No requerido si se desmarca
-                             updateProgress(); // Recalcular progreso
-                        }, 300); // Match CSS transition duration
+                             textInput.value = '';
+                             textInput.required = false;
+                             updateProgress();
+                        }, 300);
                     }
-                     updateProgress(); // Recalcular progreso
+                     updateProgress();
                 });
-                 // Inicialmente oculto y no requerido
                 otherInputContainer.style.display = 'none';
                 otherInputContainer.style.opacity = '0';
                 textInput.required = false;
@@ -497,14 +475,12 @@
         setupOtherInputToggle('q3_otro', 'q3_otro_texto');
         setupOtherInputToggle('q6_otro', 'q6_otro_texto');
 
-        // --- Manejo del envío del formulario ---
         form.addEventListener('submit', (event) => {
             event.preventDefault();
 
-            // Recolectar todas las respuestas (misma lógica que antes)
-            const formData = new FormData(form);
+             const formData = new FormData(form);
             userResponses = {};
-            formData.forEach((value, key) => {
+             formData.forEach((value, key) => {
                 if (key.endsWith('_otro_check')) return;
                 if (key.endsWith('_otro_texto')) {
                     const checkKey = key.replace('_texto', '_check');
@@ -523,7 +499,6 @@
                         userResponses[key].push(value);
                      }
                  } else if (key.endsWith('_otro_texto') && value.trim() === '') {
-                    // No añadir
                  }
                  else {
                     userResponses[key] = value.trim();
@@ -537,45 +512,93 @@
 
             console.log('Respuestas recolectadas:', userResponses);
 
-            // Ocultar formulario y mostrar agradecimiento con animación
-            surveyContainer.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
-            surveyContainer.style.opacity = '0';
-            surveyContainer.style.transform = 'scale(0.95)';
+            // --- Validar que todas las preguntas obligatorias estén respondidas ---
+            const requiredInputs = form.querySelectorAll('[required]');
+            let isFormValid = true;
+            let firstMissingQuestion = null; // Variable para almacenar la primera pregunta faltante
 
-            setTimeout(() => {
-                surveyContainer.style.display = 'none';
-                resultsContainer.style.display = 'block';
-                resultsContainer.style.opacity = '0';
-                resultsContainer.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                     resultsContainer.style.transition = 'opacity 0.5s ease-in, transform 0.5s ease-in';
-                     resultsContainer.style.opacity = '1';
-                     resultsContainer.style.transform = 'scale(1)';
-                     // Lanzar confeti
-                     triggerConfetti();
-                }, 50); // Pequeña demora para iniciar la animación de entrada
-            }, 500); // Esperar a que termine la animación de salida
+            requiredInputs.forEach(input => {
+                if (!input.value.trim() && (input.type === 'text' || input.type === 'textarea')) {
+                    isFormValid = false;
+                    if (!firstMissingQuestion) {
+                        firstMissingQuestion = input.closest('.question-block').querySelector('label').textContent;
+                    }
+                } else if (input.type === 'radio' || input.type === 'checkbox') {
+                    const groupName = input.name;
+                    const groupInputs = form.querySelectorAll(`[name="${groupName}"]`);
+                    let isGroupValid = false;
+                    groupInputs.forEach(groupInput => {
+                        if (groupInput.checked) {
+                            isGroupValid = true;
+                        }
+                    });
+                    if (!isGroupValid) {
+                        isFormValid = false;
+                        if (!firstMissingQuestion) {
+                             firstMissingQuestion = input.closest('.question-block').querySelector('label').textContent;
+                        }
+                    }
+                }
+            });
+
+            if (!isFormValid) {
+                alert(`Por favor, responde todas las preguntas obligatorias. Falta responder: ${firstMissingQuestion}`);
+                return; // Detener el envío si faltan preguntas
+            }
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Formulario enviado exitosamente a Formspree');
+                    surveyContainer.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+                    surveyContainer.style.opacity = '0';
+                    surveyContainer.style.transform = 'scale(0.95)';
+
+                    setTimeout(() => {
+                        surveyContainer.style.display = 'none';
+                        resultsContainer.style.display = 'block';
+                        resultsContainer.style.opacity = '0';
+                        resultsContainer.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                             resultsContainer.style.transition = 'opacity 0.5s ease-in, transform 0.5s ease-in';
+                             resultsContainer.style.opacity = '1';
+                             resultsContainer.style.transform = 'scale(1)';
+                             triggerConfetti();
+                        }, 50);
+                    }, 500);
+
+                } else {
+                    response.json().then(data => {
+                        console.error('Error al enviar el formulario a Formspree:', data);
+                        alert('Hubo un error al enviar tu respuesta. Por favor, inténtalo de nuevo.');
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error al enviar el formulario:', error);
+                alert('Hubo un error al enviar tu respuesta. Por favor, inténtalo de nuevo.');
+            });
         });
 
-         // --- Función para lanzar Confeti ---
         function triggerConfetti() {
             const canvas = document.getElementById('confetti-canvas');
-             // Ajustar canvas al tamaño del contenedor de resultados si es necesario
-             // canvas.width = resultsContainer.offsetWidth;
-             // canvas.height = resultsContainer.offsetHeight;
-
              const myConfetti = confetti.create(canvas, {
-                 resize: true, // Permitir que se redimensione con la ventana
-                 useWorker: true // Usar worker para mejor rendimiento
+                 resize: true,
+                 useWorker: true
              });
 
              myConfetti({
-                 particleCount: 150, // Más partículas
-                 spread: 100, // Más dispersión
-                 origin: { y: 0.6 } // Origen un poco más abajo
+                 particleCount: 150,
+                 spread: 100,
+                 origin: { y: 0.6 }
              });
 
-             // Lanzar más confeti después de un momento
              setTimeout(() => {
                   myConfetti({
                      particleCount: 100,
@@ -586,14 +609,11 @@
                   myConfetti({
                      particleCount: 100,
                      spread: 120,
-                     origin: { y: 0.7, x: 0.7 },
-                     angle: 120
+                     origin: { y: 0.7,x: 0.7 },angle: 120
                  });
              }, 300);
         }
 
-
-        // --- Lógica para descargar CSV (sin cambios) ---
         downloadButton.addEventListener('click', () => {
             let csvContent = "data:text/csv;charset=utf-8,";
             const headers = [
@@ -619,9 +639,7 @@
             const sanitizedRowData = rowData.map(value => {
                 if (value === null || typeof value === 'undefined') return '';
                 let strValue = String(value);
-                 // Always escape double quotes within the value
                  strValue = strValue.replace(/"/g, '""');
-                 // Enclose in double quotes if it contains comma, newline, or double quote
                  if (strValue.includes(',') || strValue.includes('\n') || strValue.includes('"')) {
                     return `"${strValue}"`;
                  }
